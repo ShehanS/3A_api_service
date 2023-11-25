@@ -1,10 +1,10 @@
 package com.ncinga.aaa.services;
 
 import com.ncinga.aaa.dtos.AVPRecordDto;
-import com.ncinga.aaa.dtos.request.GetRecordsDto;
+import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.AVERecordsDto;
 import com.ncinga.aaa.entity.AVPRecordEntity;
-import com.ncinga.aaa.interfaces.IAVPService;
+import com.ncinga.aaa.interfaces.IAVP;
 import com.ncinga.aaa.repository.AVPRecordRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AVPService implements IAVPService {
+public class AVPService implements IAVP {
     @Autowired
     private AVPRecordRepository avpRecordRepository;
 
@@ -37,9 +37,9 @@ public class AVPService implements IAVPService {
     }
 
     @Override
-    public AVERecordsDto getAvpRecords(GetRecordsDto getRecordsDto) {
+    public AVERecordsDto getAvpRecords(PaginationRequestDto paginationRequestDto) {
         try {
-            PageRequest pageRequest = PageRequest.of(getRecordsDto.getPage(), getRecordsDto.getPageSize());
+            PageRequest pageRequest = PageRequest.of(paginationRequestDto.getPage(), paginationRequestDto.getPageSize());
             Page<AVPRecordEntity> avpRecordPage = avpRecordRepository.findAll(pageRequest);
             int count = avpRecordRepository.getRecordCount();
             if (avpRecordPage.hasContent()) {

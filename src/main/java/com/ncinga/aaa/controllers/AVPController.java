@@ -1,7 +1,7 @@
 package com.ncinga.aaa.controllers;
 
 import com.ncinga.aaa.dtos.AVPRecordDto;
-import com.ncinga.aaa.dtos.request.GetRecordsDto;
+import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.AVERecordsDto;
 import com.ncinga.aaa.dtos.response.ResponseMessageDto;
 import com.ncinga.aaa.services.AVPService;
@@ -35,10 +35,10 @@ public class AVPController {
     }
 
     @PostMapping("/all")
-    public ResponseEntity<ResponseMessageDto> getAllRecord(@RequestBody GetRecordsDto getRecordsDto) {
+    public ResponseEntity<ResponseMessageDto> getAllRecord(@RequestBody PaginationRequestDto paginationRequestDto) {
         ResponseMessageDto response = null;
         try {
-            AVERecordsDto result = avpService.getAvpRecords(getRecordsDto);
+            AVERecordsDto result = avpService.getAvpRecords(paginationRequestDto);
             response = new ResponseMessageDto(result, null, null, ResponseCode.GET_ALL_AVP_RECORD_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

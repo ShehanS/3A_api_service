@@ -1,15 +1,15 @@
 package com.ncinga.aaa.interfaces;
 
 import com.ncinga.aaa.dtos.AVPRecordDto;
-import com.ncinga.aaa.dtos.request.GetRecordsDto;
+import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.AVERecordsDto;
 
 import java.util.List;
 
-public interface IAVPService {
+public interface IAVP {
     AVPRecordDto addRecord(AVPRecordDto record);
 
-    AVERecordsDto getAvpRecords(GetRecordsDto getRecordsDto);
+    AVERecordsDto getAvpRecords(PaginationRequestDto paginationRequestDto);
 
     List<AVPRecordDto> editRecord(AVPRecordDto record);
 

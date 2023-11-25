@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetRecordsDto {
+public class PaginationRequestDto {
     private int page;
     private int pageSize;
 }

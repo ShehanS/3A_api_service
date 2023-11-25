@@ -8,7 +8,7 @@ import lombok.Data;
 @Table(name = "bb_attrgroup_accounting_avp_override")
 public class AVPRecordEntity {
     @Id
-    private int attrgroup_id = 1;
+    private int attrgroup_id;
     private String vp_name;
     private String substitute_vp;
     private String extract_regexp;
