@@ -14,4 +14,5 @@ public class AVPRecordDto extends BaseDto<AVPRecordDto, AVPRecordEntity> {
     private String substitute_vp;
     private String extract_regexp;
     private String extract_sscanf;
+
 }

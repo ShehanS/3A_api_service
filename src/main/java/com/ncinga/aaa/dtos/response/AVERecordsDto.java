@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AVERRecordsDto {
+public class AVERecordsDto {
     private List<AVPRecordDto> records;
     private int count;
 

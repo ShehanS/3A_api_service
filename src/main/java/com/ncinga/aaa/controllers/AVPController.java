@@ -1,8 +1,8 @@
 package com.ncinga.aaa.controllers;
 
 import com.ncinga.aaa.dtos.AVPRecordDto;
-import com.ncinga.aaa.dtos.request.SearchRequestDto;
-import com.ncinga.aaa.dtos.response.AVERRecordsDto;
+import com.ncinga.aaa.dtos.request.GetRecordsDto;
+import com.ncinga.aaa.dtos.response.AVERecordsDto;
 import com.ncinga.aaa.dtos.response.ResponseMessageDto;
 import com.ncinga.aaa.services.AVPService;
 import com.ncinga.aaa.util.ResponseCode;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping(value = "/api/avp/record")
@@ -32,10 +33,10 @@ public class AVPController {
     }
 
     @PostMapping("/all")
-    public ResponseEntity<ResponseMessageDto> getAllRecord(@RequestBody SearchRequestDto searchRequestDto) {
+    public ResponseEntity<ResponseMessageDto> getAllRecord(@RequestBody GetRecordsDto getRecordsDto) {
         ResponseMessageDto response = null;
         try {
-            AVERRecordsDto result = avpService.getAvpRecords(searchRequestDto);
+            AVERecordsDto result = avpService.getAvpRecords(getRecordsDto);
             response = new ResponseMessageDto(result, null, null, ResponseCode.GET_ALL_AVP_RECORD_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -69,4 +70,5 @@ public class AVPController {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }

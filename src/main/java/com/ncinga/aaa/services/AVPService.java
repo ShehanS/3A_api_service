@@ -1,8 +1,8 @@
 package com.ncinga.aaa.services;
 
 import com.ncinga.aaa.dtos.AVPRecordDto;
-import com.ncinga.aaa.dtos.request.SearchRequestDto;
-import com.ncinga.aaa.dtos.response.AVERRecordsDto;
+import com.ncinga.aaa.dtos.request.GetRecordsDto;
+import com.ncinga.aaa.dtos.response.AVERecordsDto;
 import com.ncinga.aaa.entity.AVPRecordEntity;
 import com.ncinga.aaa.interfaces.IAVPService;
 import com.ncinga.aaa.repository.AVPRecordRepository;
@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,16 +37,16 @@ public class AVPService implements IAVPService {
     }
 
     @Override
-    public AVERRecordsDto getAvpRecords(SearchRequestDto searchRequestDto) {
+    public AVERecordsDto getAvpRecords(GetRecordsDto getRecordsDto) {
         try {
-            PageRequest pageRequest = PageRequest.of(searchRequestDto.getPage(), searchRequestDto.getPageSize());
+            PageRequest pageRequest = PageRequest.of(getRecordsDto.getPage(), getRecordsDto.getPageSize());
             Page<AVPRecordEntity> avpRecordPage = avpRecordRepository.findAll(pageRequest);
             int count = avpRecordRepository.getRecordCount();
             if (avpRecordPage.hasContent()) {
                 List<AVPRecordDto> result = avpRecordPage.getContent().stream()
                         .map(record -> AVPRecordDto.fromEntity(record, AVPRecordDto.class))
                         .collect(Collectors.toList());
-                return new AVERRecordsDto(result, count);
+                return new AVERecordsDto(result, count);
             }
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -75,7 +76,8 @@ public class AVPService implements IAVPService {
         try {
             avpRecordRepository.deleteByAttrGroupId(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
+
 }

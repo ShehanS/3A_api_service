@@ -1,6 +1,5 @@
 package com.ncinga.aaa.dtos.request;
 
-import jakarta.persistence.Access;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchRequestDto {
+public class GetRecordsDto {
     private int page;
     private int pageSize;
 }
