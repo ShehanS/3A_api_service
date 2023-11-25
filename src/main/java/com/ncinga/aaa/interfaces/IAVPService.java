@@ -4,7 +4,6 @@ import com.ncinga.aaa.dtos.AVPRecordDto;
 import com.ncinga.aaa.dtos.request.GetRecordsDto;
 import com.ncinga.aaa.dtos.response.AVERecordsDto;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface IAVPService {
@@ -12,7 +11,9 @@ public interface IAVPService {
 
     AVERecordsDto getAvpRecords(GetRecordsDto getRecordsDto);
 
-    AVPRecordDto editRecord(AVPRecordDto record);
+    List<AVPRecordDto> editRecord(AVPRecordDto record);
+
+    List<AVPRecordDto> getRecord(int id);
 
     void deleteRecord(int id);
 

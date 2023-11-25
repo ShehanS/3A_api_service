@@ -55,15 +55,30 @@ public class AVPService implements IAVPService {
     }
 
     @Override
-    public AVPRecordDto editRecord(AVPRecordDto record) {
+    public List<AVPRecordDto> editRecord(AVPRecordDto record) {
         try {
-           AVPRecordEntity findRecord = avpRecordRepository.findById(record.getAttrgroup_id()).orElseThrow();
-           findRecord.setVp_name(record.getVp_name());
-           findRecord.setExtract_regexp(record.getExtract_regexp());
-           findRecord.setExtract_sscanf(record.getExtract_sscanf());
-           findRecord.setSubstitute_vp(record.getSubstitute_vp());
-           AVPRecordEntity updateResult = avpRecordRepository.save(findRecord);
-           return AVPRecordDto.fromEntity(updateResult, AVPRecordDto.class);
+            List<AVPRecordDto> result = new ArrayList<>();
+            AVPRecordEntity findRecord = avpRecordRepository.findById(record.getAttrgroup_id()).orElseThrow();
+            findRecord.setVp_name(record.getVp_name());
+            findRecord.setExtract_regexp(record.getExtract_regexp());
+            findRecord.setExtract_sscanf(record.getExtract_sscanf());
+            findRecord.setSubstitute_vp(record.getSubstitute_vp());
+            AVPRecordEntity update = avpRecordRepository.save(findRecord);
+            AVPRecordDto updateResult = AVPRecordDto.fromEntity(update, AVPRecordDto.class);
+            result.add(updateResult);
+            return result;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<AVPRecordDto> getRecord(int id) {
+        try {
+            List<AVPRecordEntity> records = avpRecordRepository.findByAttrGroupId(id);
+
+            return records.stream().map(r -> AVPRecordDto.fromEntity(r, AVPRecordDto.class)).collect(Collectors.toList());
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
