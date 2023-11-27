@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/nas-attribute-group/")
+@RequestMapping("/api/attribute/group/")
 public class NASAttributeGroupController {
     @Autowired
     private NASAttributeGroupService attributeGroupService;

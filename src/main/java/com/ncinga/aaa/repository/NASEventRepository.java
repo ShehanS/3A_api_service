@@ -12,12 +12,12 @@ import java.util.List;
 public interface NASEventRepository extends JpaRepository<NASEventEntity, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM bb_nas WHERE event_id = :id", nativeQuery = true)
+    @Query(value = "DELETE FROM bb_nas WHERE nas_id = :id", nativeQuery = true)
     int deleteByEventId(@Param("id") int id);
 
     @Transactional
     @Modifying
-    @Query(value = "SELECT * FROM bb_nas WHERE event_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM bb_nas WHERE nas_id = :id", nativeQuery = true)
     List<NASEventEntity> findByEventId(@Param("id") int id);
 
 
