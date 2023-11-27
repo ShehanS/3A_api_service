@@ -63,7 +63,7 @@ public class COAService implements ICOA {
             findRecord.setStatus(record.getStatus());
             findRecord.setUsername(record.getUsername());
             COAEventEntity update = coaRepository.save(findRecord);
-            COAEventDto updateResult = AVPRecordDto.fromEntity(update, COAEventDto.class);
+            COAEventDto updateResult = COAEventDto.fromEntity(update, COAEventDto.class);
             result.add(updateResult);
             return result;
 

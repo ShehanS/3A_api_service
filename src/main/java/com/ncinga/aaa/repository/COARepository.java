@@ -1,6 +1,5 @@
 package com.ncinga.aaa.repository;
 
-import com.ncinga.aaa.entity.AccountEntity;
 import com.ncinga.aaa.entity.COAEventEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
