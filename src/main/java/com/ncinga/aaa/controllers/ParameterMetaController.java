@@ -37,10 +37,10 @@ public class ParameterMetaController {
         ResponseMessageDto response = null;
         try {
             ParameterMetaRecordsDto result = parameterMetaService.getParametersMeta(paginationRequestDto);
-            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_PARAMETERS_SQL_SUCCESS);
+            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_PARAMETER_META_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_PARAMETERS_SQL_FAILED);
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_PARAMETER_META_FAILED);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

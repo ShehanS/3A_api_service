@@ -1,6 +1,5 @@
 package com.ncinga.aaa.services;
 
-import com.ncinga.aaa.dtos.AVPRecordDto;
 import com.ncinga.aaa.dtos.COAEventDto;
 import com.ncinga.aaa.dtos.ParameterSQLDto;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
@@ -45,7 +44,7 @@ public class ParameterSQLService implements IParameterSQL {
             int count = parameterSQLRepository.getRecordCount();
             if (parameterSQLEntities.hasContent()) {
                 List<ParameterSQLDto> result = parameterSQLEntities.getContent().stream()
-                        .map(record -> AVPRecordDto.fromEntity(record, ParameterSQLDto.class))
+                        .map(record -> ParameterSQLDto.fromEntity(record, ParameterSQLDto.class))
                         .collect(Collectors.toList());
                 return new ParameterSQLRecordsDto(result, count);
             }

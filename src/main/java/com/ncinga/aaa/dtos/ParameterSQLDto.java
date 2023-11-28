@@ -15,5 +15,6 @@ public class ParameterSQLDto extends BaseDto<ParameterSQLDto, ParameterSQLEntity
     private String action_sql;
     private int action_seq;
     private int match_return;
+    private String action_phase;
     private String entity;
 }

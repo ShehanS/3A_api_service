@@ -59,7 +59,7 @@ public class ParameterMetaService implements IParameterMeta {
         findRecord.setParameter_id(record.getParameter_id());
         findRecord.setParameter_name(record.getParameter_name());
         findRecord.setParameter_lib_path(record.getParameter_lib_path());
-        findRecord.setParameter_status(findRecord.getParameter_status());
+        findRecord.setParameter_status(record.getParameter_status());
         findRecord.setParameter_method_symbol(record.getParameter_method_symbol());
         findRecord.setExec_phase(record.getExec_phase());
         ParameterMetaEntity update = parameterMetaRepository.save(findRecord);
