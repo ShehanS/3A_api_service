@@ -15,12 +15,12 @@ import java.util.List;
 public interface PlanAttributeRepository extends JpaRepository<PlanAttributeEntity, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM bb_plan_attribute WHERE palan_id = :id", nativeQuery = true)
+    @Query(value = "DELETE FROM bb_plan_attribute WHERE plan_id = :id", nativeQuery = true)
     int deleteByPlanId(@Param("id") int id);
 
     @Transactional
     @Modifying
-    @Query(value = "SELECT * FROM bb_plan_attribute WHERE palan_id = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM bb_plan_attribute WHERE plan_id = :id", nativeQuery = true)
     List<PlanAttributeEntity> findByPlanId(@Param("id") int id);
 
 

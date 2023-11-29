@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlanAttributeRecordsDto {
-    private List<PlanAttributeDto> results;
+    private List<PlanAttributeDto> records;
     private int count;
 }
