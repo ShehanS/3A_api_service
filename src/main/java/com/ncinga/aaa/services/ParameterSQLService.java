@@ -80,7 +80,7 @@ public class ParameterSQLService implements IParameterSQL {
     public List<ParameterSQLDto> getParameterSQL(int id) {
         try {
             List<ParameterSQLEntity> records = parameterSQLRepository.findByByActionId(id);
-            return records.stream().map(r -> COAEventDto.fromEntity(r, ParameterSQLDto.class)).collect(Collectors.toList());
+            return records.stream().map(r -> ParameterSQLDto.fromEntity(r, ParameterSQLDto.class)).collect(Collectors.toList());
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
