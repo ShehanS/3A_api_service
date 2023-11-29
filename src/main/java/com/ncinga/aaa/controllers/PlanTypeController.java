@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/plan/type")
+@RequestMapping(path = "/api/plan/types")
 public class PlanTypeController {
     @Autowired
     private PlanTypeService planTypeService;

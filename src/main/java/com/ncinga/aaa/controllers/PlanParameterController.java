@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/api/plan/parameter")
+@RequestMapping(path = "/api/plan/parameters")
 public class PlanParameterController {
     @Autowired
     private PlanParameterService planParameterService;

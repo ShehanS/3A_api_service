@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/plan/attribute")
+@RequestMapping(path = "/api/plan/attributes")
 public class PlanAttributeController {
 
     @Autowired
