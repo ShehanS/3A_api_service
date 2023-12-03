@@ -1,4 +1,4 @@
-package com.ncinga.aaa.services;
+package com.ncinga.aaa.interfaces;
 
 
 import com.ncinga.aaa.dtos.PlanDto;

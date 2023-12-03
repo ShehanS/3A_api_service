@@ -4,6 +4,7 @@ import com.ncinga.aaa.dtos.PlanDto;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.PlanRecordsDto;
 import com.ncinga.aaa.entity.PlanEntity;
+import com.ncinga.aaa.interfaces.IPlan;
 import com.ncinga.aaa.repository.PlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,6 @@
 package com.ncinga.aaa.repository;
 
-import com.ncinga.aaa.entity.NASEventEntity;
+import com.ncinga.aaa.entity.NASConfigEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface NASEventRepository extends JpaRepository<NASEventEntity, Integer> {
+public interface NASConfigRepository extends JpaRepository<NASConfigEntity, Integer> {
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM bb_nas WHERE nas_id = :id", nativeQuery = true)
@@ -18,7 +18,7 @@ public interface NASEventRepository extends JpaRepository<NASEventEntity, Intege
     @Transactional
     @Modifying
     @Query(value = "SELECT * FROM bb_nas WHERE nas_id = :id", nativeQuery = true)
-    List<NASEventEntity> findByEventId(@Param("id") int id);
+    List<NASConfigEntity> findByEventId(@Param("id") int id);
 
 
     @Transactional

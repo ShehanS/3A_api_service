@@ -1,5 +1,6 @@
 package com.ncinga.aaa.entity;
 
+import com.ncinga.aaa.validator.NotBlankWithFieldName;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -13,6 +14,7 @@ import java.util.Date;
 public class AccountEntity {
     @Id
     private int subscriber_id;
+    @NotBlankWithFieldName(fieldName = "username")
     private String username;
     private String acct_session_id;
     private String nas_ip_address;

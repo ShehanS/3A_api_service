@@ -1,6 +1,5 @@
 package com.ncinga.aaa.dtos.response;
 
-import com.ncinga.aaa.dtos.NASEventDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class NASEventRecordsDto {
-    private List<NASEventDto> records;
+public class NASConfigDto {
+    private List<com.ncinga.aaa.dtos.NASConfigDto> records;
     private int count;
 }

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Entity
 public class PlanParameterEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int plan_id;
     private String parameter_name;
     private String parameter_value;

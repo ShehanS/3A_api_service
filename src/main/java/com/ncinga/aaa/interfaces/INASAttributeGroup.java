@@ -4,7 +4,6 @@ package com.ncinga.aaa.interfaces;
 import com.ncinga.aaa.dtos.NASAttributeGroupDto;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.NASAttributiveGroupRecords;
-import com.ncinga.aaa.dtos.response.NASEventRecordsDto;
 
 import java.util.List;
 

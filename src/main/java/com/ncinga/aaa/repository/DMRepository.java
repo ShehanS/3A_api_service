@@ -1,8 +1,7 @@
 package com.ncinga.aaa.repository;
 
-import com.ncinga.aaa.dtos.PlanParameterDto;
-import com.ncinga.aaa.entity.PlanParameterEntity;
-import com.ncinga.aaa.entity.PlanTypeEntity;
+
+import com.ncinga.aaa.entity.DMEventEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,16 +12,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlanParameterRepository extends JpaRepository<PlanParameterEntity, Integer> {
+public interface DMRepository extends JpaRepository<DMEventEntity, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM bb_plan_parameter WHERE plan_id = :id", nativeQuery = true)
-    int deleteByPlanId(@Param("id") int id);
+    @Query(value = "DELETE FROM bb_pod_event WHERE event_id = :id", nativeQuery = true)
+    int deleteByEventId(@Param("id") int id);
 
     @Transactional
     @Modifying
-    @Query(value = "SELECT * FROM bb_plan_parameter WHERE plan_id = :id", nativeQuery = true)
-    List<PlanParameterEntity> findByByPlanId(@Param("id") int id);
+    @Query(value = "SELECT * FROM bb_pod_event WHERE event_id = :id", nativeQuery = true)
+    List<DMEventEntity> findByEventId(@Param("id") int id);
 
 
     @Transactional
@@ -30,6 +29,6 @@ public interface PlanParameterRepository extends JpaRepository<PlanParameterEnti
     @Query(value = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = :schemaName", nativeQuery = true)
     List<String> getColumns(@Param("schemaName") String schemaName);
 
-    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM bb_plan_parameter")
+    @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM bb_pod_event")
     int getRecordCount();
 }
