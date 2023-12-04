@@ -24,18 +24,11 @@ public class NASConfigController {
     private NASConfigService nasEventService;
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseMessageDto> addNASRAcord(@Valid @RequestBody NASConfigDto payload, BindingResult result) {
+    public ResponseEntity<ResponseMessageDto> addNASRAcord(@Valid @RequestBody NASConfigDto payload) {
         ResponseMessageDto response = null;
-        if (result.hasErrors()) {
-            List<String> errors = result.getAllErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                    .collect(Collectors.toList());
-           response = new ResponseMessageDto(null, null, errors,  ResponseCode.ADD_NAS_EVENT_FAILED);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
         try {
             NASConfigDto res = nasEventService.addNAS(payload);
-            response = new ResponseMessageDto(result, null, null, ResponseCode.ADD_NAS_EVENT_SUCCESS);
+            response = new ResponseMessageDto(res, null, null, ResponseCode.ADD_NAS_EVENT_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.ADD_NAS_EVENT_FAILED);
