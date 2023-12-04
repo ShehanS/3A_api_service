@@ -58,7 +58,7 @@ public class AVPService implements IAVP {
     public List<AVPRecordDto> editRecord(AVPRecordDto record) {
         try {
             List<AVPRecordDto> result = new ArrayList<>();
-            AVPRecordEntity findRecord = avpRecordRepository.findById(record.getAttrgroup_id()).orElseThrow();
+            AVPRecordEntity findRecord = avpRecordRepository.findByAttrGroupId(record.getAttrgroup_id()).get(0);
             findRecord.setVp_name(record.getVp_name());
             findRecord.setExtract_regexp(record.getExtract_regexp());
             findRecord.setExtract_sscanf(record.getExtract_sscanf());
