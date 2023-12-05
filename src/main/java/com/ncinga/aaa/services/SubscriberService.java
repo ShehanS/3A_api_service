@@ -1,12 +1,12 @@
 package com.ncinga.aaa.services;
 
-import com.ncinga.aaa.dtos.ParameterSQLDto;
-import com.ncinga.aaa.dtos.PlanTypeDto;
-import com.ncinga.aaa.dtos.SubscriberDto;
+import com.ncinga.aaa.dtos.*;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.SubscriberRecordsDto;
-import com.ncinga.aaa.entity.SubscriberEntity;
+import com.ncinga.aaa.entity.*;
 import com.ncinga.aaa.interfaces.ISubscriber;
+import com.ncinga.aaa.repository.NASWhitelistRepository;
+import com.ncinga.aaa.repository.SubscriberParameterRepository;
 import com.ncinga.aaa.repository.SubscriberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +21,12 @@ import java.util.stream.Collectors;
 public class SubscriberService implements ISubscriber {
     @Autowired
     private SubscriberRepository subscriberRepository;
+
+    @Autowired
+    private NASWhitelistRepository nasWhitelistRepository;
+
+    @Autowired
+    private SubscriberParameterRepository subscriberParameterRepository;
 
     @Override
     public SubscriberDto addSubscriber(SubscriberDto subscribe) {
@@ -81,6 +87,119 @@ public class SubscriberService implements ISubscriber {
             List<SubscriberEntity> records = subscriberRepository.findBySubscriberId(id);
             return records.stream().map(r -> PlanTypeDto.fromEntity(r, SubscriberDto.class)).collect(Collectors.toList());
 
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public SubscriberParameterDto addParameter(SubscriberParameterDto subscriberParameterDto) {
+        SubscriberParameterEntity subscriberParameterEntity = new SubscriberParameterEntity();
+        SubscriberParameterEntityID entity = new SubscriberParameterEntityID();
+        entity.setSubscriber_id(subscriberParameterDto.getSubscriber_id());
+        entity.setParameter_name(subscriberParameterDto.getParameter_name());
+        entity.setParameter_value(subscriberParameterDto.getParameter_value());
+        entity.setReject_on_failure(subscriberParameterDto.getReject_on_failure());
+        subscriberParameterEntity.setSubscriberParameterEntityID(entity);
+        try {
+            SubscriberParameterEntity result = subscriberParameterRepository.save(subscriberParameterEntity);
+            if (result != null) {
+                return SubscriberParameterDto.fromEntity(result, SubscriberParameterDto.class);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<SubscriberParameterDto> editParameter(SubscriberParameterDto subscriberParameterDto) {
+        return null;
+    }
+
+    @Override
+    public List<SubscriberParameterDto> getParameters(int subscriberId) {
+        try {
+            List<SubscriberParameterEntity> records = subscriberParameterRepository.findBySubScriberId(subscriberId);
+            return records.stream().map(r -> {
+                SubscriberParameterDto subscriberParameterDto = new SubscriberParameterDto();
+                subscriberParameterDto.setParameter_name(r.getSubscriberParameterEntityID().getParameter_name());
+                subscriberParameterDto.setParameter_value(r.getSubscriberParameterEntityID().getParameter_value());
+                subscriberParameterDto.setSubscriber_id(r.getSubscriberParameterEntityID().getSubscriber_id());
+                subscriberParameterDto.setReject_on_failure(r.getSubscriberParameterEntityID().getReject_on_failure());
+                return subscriberParameterDto;
+            }).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<SubscriberParameterDto> getParameter(int subscriberId) {
+        return null;
+    }
+
+    @Override
+    public void deleteParameter(SubscriberParameterDto subscriberParameterDto) {
+        try {
+            subscriberParameterRepository.deleteSubscriberPlan(subscriberParameterDto.getSubscriber_id(), subscriberParameterDto.getParameter_name());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public NASWhitelistDto addNas(NASWhitelistDto nasWhitelistDto) {
+        NASWhitelistEntity nasWhitelistEntity = new NASWhitelistEntity();
+        NASWhitelistEntityID id = new NASWhitelistEntityID();
+        id.setSubscriber_id(nasWhitelistDto.getSubscriber_id());
+        id.setNas_id_pattern(nasWhitelistDto.getNas_id_pattern());
+        nasWhitelistEntity.setId(id);
+        try {
+            NASWhitelistEntity result = nasWhitelistRepository.save(nasWhitelistEntity);
+            if (result != null) {
+                return NASWhitelistDto.fromEntity(result, NASWhitelistDto.class);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<NASWhitelistDto> editNas(NASWhitelistDto nasWhitelistDto) {
+        try {
+            return null;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<NASWhitelistDto> getNasWhitelist(int SubscriberId) {
+        try {
+            List<NASWhitelistEntity> records = nasWhitelistRepository.findBySubScriberId(SubscriberId);
+            return records.stream().map(r -> {
+                NASWhitelistDto nasWhitelistDto = new NASWhitelistDto();
+                nasWhitelistDto.setNas_id_pattern(r.getId().getNas_id_pattern());
+                nasWhitelistDto.setSubscriber_id(r.getId().getSubscriber_id());
+                return nasWhitelistDto;
+            }).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public List<NASWhitelistDto> getNasById(int subscriberId) {
+        return null;
+    }
+
+    @Override
+    public void deleteNas(NASWhitelistDto nasWhitelistDto) {
+        try {
+            nasWhitelistRepository.deleteNasWhitelist(nasWhitelistDto.getSubscriber_id(), nasWhitelistDto.getNas_id_pattern());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -1,6 +1,8 @@
 package com.ncinga.aaa.interfaces;
 
+import com.ncinga.aaa.dtos.NASWhitelistDto;
 import com.ncinga.aaa.dtos.SubscriberDto;
+import com.ncinga.aaa.dtos.SubscriberParameterDto;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.SubscriberRecordsDto;
 
@@ -15,6 +17,26 @@ public interface ISubscriber {
 
     List<SubscriberDto> getSubscriber(int id);
 
+    SubscriberParameterDto addParameter(SubscriberParameterDto subscriberParameterDto);
+
+    List<SubscriberParameterDto> editParameter(SubscriberParameterDto subscriberParameterDto);
+
+    List<SubscriberParameterDto> getParameters(int subscriberId);
+
+    List<SubscriberParameterDto> getParameter(int subscriberId);
+
+    void deleteParameter(SubscriberParameterDto subscriberParameterDto);
+
     void deleteSubscriber(int id);
+
+    NASWhitelistDto addNas(NASWhitelistDto nasWhitelistDto);
+
+    List<NASWhitelistDto> editNas(NASWhitelistDto nasWhitelistDto);
+
+    List<NASWhitelistDto> getNasWhitelist(int subscriberId);
+
+    List<NASWhitelistDto> getNasById(int subscriberId);
+
+    void deleteNas(NASWhitelistDto nasWhitelistDto);
 
 }

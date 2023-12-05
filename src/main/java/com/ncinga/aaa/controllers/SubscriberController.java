@@ -1,6 +1,8 @@
 package com.ncinga.aaa.controllers;
 
+import com.ncinga.aaa.dtos.NASWhitelistDto;
 import com.ncinga.aaa.dtos.SubscriberDto;
+import com.ncinga.aaa.dtos.SubscriberParameterDto;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.ResponseMessageDto;
 import com.ncinga.aaa.dtos.response.SubscriberRecordsDto;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/subscribers/system")
+@RequestMapping(path = "/api/subscribers")
 public class SubscriberController {
     @Autowired
     private SubscriberService subscriberService;
@@ -80,6 +82,104 @@ public class SubscriberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_SUBSCRIBER_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    //////////////////
+
+
+    @PostMapping("/nas/whitelist/add-nas")
+    public ResponseEntity<ResponseMessageDto> addNas(@RequestBody NASWhitelistDto payload) {
+        ResponseMessageDto response = null;
+        try {
+            NASWhitelistDto result = subscriberService.addNas(payload);
+            response = new ResponseMessageDto(result, null, null, ResponseCode.ADD_NAS_WIHITELIST_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.ADD_NAS_WIHITELIST_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/nas/whitelist/{id}/all")
+    public ResponseEntity<ResponseMessageDto> getAllNAS(@PathVariable String id) {
+        ResponseMessageDto response = null;
+        try {
+            List<NASWhitelistDto> result = subscriberService.getNasWhitelist(Integer.parseInt(id));
+            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_NAS_WIHITELIST_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_NAS_WIHITELIST_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/nas/whitelist/delete")
+    public ResponseEntity<ResponseMessageDto> deleteNAS(@RequestBody NASWhitelistDto nasWhitelistDto) {
+        ResponseMessageDto response = null;
+        try {
+            subscriberService.deleteNas(nasWhitelistDto);
+            response = new ResponseMessageDto(null, null, null, ResponseCode.DELETE_NAS_WIHITELIST_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.DELETE_NAS_WIHITELIST_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/nas/whitelist/id/{id}")
+    public ResponseEntity<ResponseMessageDto> getNas(@PathVariable String id) {
+        ResponseMessageDto response = null;
+        try {
+            List<NASWhitelistDto> result = subscriberService.getNasById(Integer.parseInt(id));
+            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_NAS_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_NAS_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    ////////////
+
+
+    @PostMapping("/parameter/add")
+    public ResponseEntity<ResponseMessageDto> addParameter(@RequestBody SubscriberParameterDto subscriberParameterDto) {
+        ResponseMessageDto response = null;
+        try {
+            SubscriberParameterDto result = subscriberService.addParameter(subscriberParameterDto);
+            response = new ResponseMessageDto(result, null, null, ResponseCode.ADD_SUBSCRIBER_PARAMETER_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.ADD_SUBSCRIBER_PARAMETER_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/parameter/{id}/all")
+    public ResponseEntity<ResponseMessageDto> getAllParameter(@PathVariable String id) {
+        ResponseMessageDto response = null;
+        try {
+            List<SubscriberParameterDto> result = subscriberService.getParameters(Integer.parseInt(id));
+            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_ALL_SUBSCRIBER_PARAMETER_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_ALL_SUBSCRIBER_PARAMETER_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/parameter/delete")
+    public ResponseEntity<ResponseMessageDto> deleteParameter(@RequestBody SubscriberParameterDto subscriberParameterDto) {
+        ResponseMessageDto response = null;
+        try {
+            subscriberService.deleteParameter(subscriberParameterDto);
+            response = new ResponseMessageDto(null, null, null, ResponseCode.DELETE_SUBSCRIBER_PARAMETER_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.DELETE_SUBSCRIBER_PARAMETER_FAILED);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
