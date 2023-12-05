@@ -7,6 +7,7 @@ import com.ncinga.aaa.entity.*;
 import com.ncinga.aaa.interfaces.ISubscriber;
 import com.ncinga.aaa.repository.NASWhitelistRepository;
 import com.ncinga.aaa.repository.SubscriberParameterRepository;
+import com.ncinga.aaa.repository.SubscriberPlanRepository;
 import com.ncinga.aaa.repository.SubscriberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,10 @@ public class SubscriberService implements ISubscriber {
 
     @Autowired
     private SubscriberParameterRepository subscriberParameterRepository;
+
+    @Autowired
+    private SubscriberPlanRepository subscriberPlanRepository;
+
 
     @Override
     public SubscriberDto addSubscriber(SubscriberDto subscribe) {
@@ -142,7 +147,7 @@ public class SubscriberService implements ISubscriber {
     @Override
     public void deleteParameter(SubscriberParameterDto subscriberParameterDto) {
         try {
-            subscriberParameterRepository.deleteSubscriberPlan(subscriberParameterDto.getSubscriber_id(), subscriberParameterDto.getParameter_name());
+            subscriberParameterRepository.deleteSubscriberParameter(subscriberParameterDto.getSubscriber_id(), subscriberParameterDto.getParameter_name());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -200,6 +205,66 @@ public class SubscriberService implements ISubscriber {
     public void deleteNas(NASWhitelistDto nasWhitelistDto) {
         try {
             nasWhitelistRepository.deleteNasWhitelist(nasWhitelistDto.getSubscriber_id(), nasWhitelistDto.getNas_id_pattern());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public SubscriberPlanDto addPlan(SubscriberPlanDto SubscriberPlanDto) {
+        SubscriberPlanEntity subscriberPlanEntity = SubscriberPlanDto.toEntity(SubscriberPlanEntity.class);
+        try {
+
+            SubscriberPlanEntity result = subscriberPlanRepository.save(subscriberPlanEntity);
+            if (result != null) {
+                return SubscriberDto.fromEntity(result, SubscriberPlanDto.class);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<SubscriberPlanDto> editPlan(SubscriberPlanDto subscriberPlanDto) {
+        SubscriberPlanEntity findUpdate = subscriberPlanRepository.findById(subscriberPlanDto.getInstance_id()).orElseThrow();
+        findUpdate.setPlan_id(subscriberPlanDto.getPlan_id());
+        findUpdate.setPlan_state(subscriberPlanDto.getPlan_state());
+        subscriberPlanRepository.save(findUpdate);
+        return null;
+    }
+
+    @Override
+    public List<SubscriberPlanDto> getAllPlans(int subscriberId) {
+        try {
+            List<SubscriberPlanEntity> result = subscriberPlanRepository.findBySubscriberId(subscriberId).orElseThrow();
+            if (result.size() > 0) {
+                return result.stream().map(r -> SubscriberPlanDto.fromEntity(r, SubscriberPlanDto.class)).collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<SubscriberPlanDto> getPlan(int instanceId) {
+        try {
+            List<SubscriberPlanDto> result = new ArrayList<>();
+            SubscriberPlanEntity subscriberPlanEntity = subscriberPlanRepository.findById(instanceId).orElseThrow();
+            SubscriberPlanDto record = SubscriberPlanDto.fromEntity(subscriberPlanEntity, SubscriberPlanDto.class);
+            result.add(record);
+            return result;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void deletePlan(int instanceId) {
+        try {
+            subscriberPlanRepository.deleteById(instanceId);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

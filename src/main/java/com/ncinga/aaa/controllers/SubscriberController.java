@@ -3,6 +3,7 @@ package com.ncinga.aaa.controllers;
 import com.ncinga.aaa.dtos.NASWhitelistDto;
 import com.ncinga.aaa.dtos.SubscriberDto;
 import com.ncinga.aaa.dtos.SubscriberParameterDto;
+import com.ncinga.aaa.dtos.SubscriberPlanDto;
 import com.ncinga.aaa.dtos.request.PaginationRequestDto;
 import com.ncinga.aaa.dtos.response.ResponseMessageDto;
 import com.ncinga.aaa.dtos.response.SubscriberRecordsDto;
@@ -157,7 +158,7 @@ public class SubscriberController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/parameter/{id}/all")
+    @GetMapping("/parameter/id/{id}/all")
     public ResponseEntity<ResponseMessageDto> getAllParameter(@PathVariable String id) {
         ResponseMessageDto response = null;
         try {
@@ -180,6 +181,74 @@ public class SubscriberController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.DELETE_SUBSCRIBER_PARAMETER_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    //////////////////////////
+
+
+    @PostMapping("/plan/add")
+    public ResponseEntity<ResponseMessageDto> addSubscriberPlan(@RequestBody SubscriberPlanDto subscriberPlanDto) {
+        ResponseMessageDto response = null;
+        try {
+            SubscriberPlanDto result = subscriberService.addPlan(subscriberPlanDto);
+            response = new ResponseMessageDto(result, null, null, ResponseCode.ADD_SUBSCRIBER_PLAN_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.ADD_SUBSCRIBER_PLAN_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/plan/id/{subscriberId}/all")
+    public ResponseEntity<ResponseMessageDto> getSubscriberAllPlan(@PathVariable int subscriberId) {
+        ResponseMessageDto response = null;
+        try {
+            List<SubscriberPlanDto> result = subscriberService.getAllPlans(subscriberId);
+            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_ALL_SUBSCRIBER_PLAN_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_ALL_SUBSCRIBER_PLAN_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/plan/edit")
+    public ResponseEntity<ResponseMessageDto> planSubscriberEdit(@RequestBody SubscriberPlanDto subscriberPlanDto) {
+        ResponseMessageDto response = null;
+        try {
+            List<SubscriberPlanDto> result = subscriberService.editPlan(subscriberPlanDto);
+            response = new ResponseMessageDto(result, null, null, ResponseCode.EDIT_SUBSCRIBER_PLAN_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.EDIT_SUBSCRIBER_PLAN_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/plan/delete/id/{id}")
+    public ResponseEntity<ResponseMessageDto> planSubscriberDelete(@PathVariable String id) {
+        ResponseMessageDto response = null;
+        try {
+            subscriberService.deletePlan(Integer.parseInt(id));
+            response = new ResponseMessageDto(null, null, null, ResponseCode.DELETE_SUBSCRIBER_PLAN_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.DELETE_SUBSCRIBER_PLAN_FAILED);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/plan/id/{id}")
+    public ResponseEntity<ResponseMessageDto> getSubscriberPlan(@PathVariable String id) {
+        ResponseMessageDto response = null;
+        try {
+            List<SubscriberPlanDto> result = subscriberService.getPlan(Integer.parseInt(id));
+            response = new ResponseMessageDto(result, null, null, ResponseCode.GET_SUBSCRIBER_PLAN_SUCCESS);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.GET_SUBSCRIBER_PLAN_FAILED);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
