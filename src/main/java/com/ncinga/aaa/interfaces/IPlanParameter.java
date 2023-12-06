@@ -13,7 +13,7 @@ public interface IPlanParameter {
 
     List<PlanParameterDto> editPlanParameter(PlanParameterDto record);
 
-    List<PlanParameterDto> getPlanParameter(int id);
+    PlanParameterDto getPlanParameter(int id);
 
     void deleteParameter(int id);
 }

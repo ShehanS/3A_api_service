@@ -14,8 +14,8 @@ import java.util.List;
 public interface SubscriberParameterRepository extends JpaRepository<SubscriberParameterEntity, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM bb_subscriber_parameter WHERE subscriber_id = :id AND parameter_name=:parameterName", nativeQuery = true)
-    int deleteSubscriberParameter(@Param("id") int id, @Param("parameterName") String parameterName);
+    @Query(value = "DELETE FROM bb_subscriber_parameter WHERE parameter_id = :id", nativeQuery = true)
+    int deleteSubscriberParameter(@Param("id") int id);
 
     @Transactional
     @Modifying

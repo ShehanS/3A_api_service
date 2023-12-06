@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaginationRequestDto {
-    private int subscriberId;
     private int page;
     private int pageSize;
 }

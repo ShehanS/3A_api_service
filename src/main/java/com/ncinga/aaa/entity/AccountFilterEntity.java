@@ -1,8 +1,6 @@
 package com.ncinga.aaa.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccountFilterEntity {
     @Id
+    private int id;
     private int attrgroup_id;
     private String filter_avp;
     private String filter_regexp;

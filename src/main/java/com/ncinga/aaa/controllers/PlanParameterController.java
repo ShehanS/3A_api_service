@@ -76,7 +76,7 @@ public class PlanParameterController {
     public ResponseEntity<ResponseMessageDto> get(@PathVariable String id) {
         ResponseMessageDto response = null;
         try {
-            List<PlanParameterDto> result = planParameterService.getPlanParameter(Integer.parseInt(id));
+            PlanParameterDto result = planParameterService.getPlanParameter(Integer.parseInt(id));
             response = new ResponseMessageDto(result, null, null, ResponseCode.GET_PLAN_PARAMETER_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

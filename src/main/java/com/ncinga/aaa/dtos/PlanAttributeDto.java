@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlanAttributeDto extends BaseDto<PlanAttributeDto, PlanAttributeEntity> {
+    private int attribute_id;
     private int plan_id;
     private String attribute_name;
     private String attribute_value;

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubscriberParameterDto extends BaseDto<SubscriberParameterDto, SubscriberParameterEntity> {
+    private int parameter_id;
     private int subscriber_id;
     private String parameter_name;
     private String parameter_value;

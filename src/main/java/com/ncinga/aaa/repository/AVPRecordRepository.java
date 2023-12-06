@@ -18,7 +18,7 @@ public interface AVPRecordRepository extends JpaRepository<AVPRecordEntity, Numb
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM bb_attrgroup_accounting_avp_override WHERE attrgroup_id = :id", nativeQuery = true)
+    @Query(value = "DELETE FROM bb_attrgroup_accounting_avp_override WHERE override_id = :id", nativeQuery = true)
     int deleteByAttrGroupId(@Param("id") int id);
 
     @Transactional

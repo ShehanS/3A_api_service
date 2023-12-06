@@ -14,12 +14,12 @@ import java.util.Date;
 public class AccountEntity {
     @Id
     private int subscriber_id;
-    @NotBlankWithFieldName(fieldName = "username")
     private String username;
+    private int nas_port;
     private String acct_session_id;
     private String nas_ip_address;
     private String framed_ip_address;
-    private int acct_status_type;
+    private String acct_status_type;
     private int acct_input_octets;
     private String acct_output_octets;
     private String framed_protocol;

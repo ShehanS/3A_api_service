@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
+import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
@@ -19,4 +24,8 @@ public class SubscriberEntity {
     private String status;
     private String contact_no;
     private String email;
+    @CreationTimestamp
+    private Timestamp created_date;
+    @CreationTimestamp
+    private Timestamp updated_time;
 }

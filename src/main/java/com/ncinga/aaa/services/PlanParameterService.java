@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,28 +56,34 @@ public class PlanParameterService implements IPlanParameter {
     }
 
     @Override
+    @Transactional
     public List<PlanParameterDto> editPlanParameter(PlanParameterDto record) {
         try {
             List<PlanParameterDto> result = new ArrayList<>();
-            PlanParameterEntity findRecord = planParameterRepository.findById(record.getPlan_id()).orElseThrow();
-            findRecord.setParameter_value(record.getParameter_value());
-            findRecord.setParameter_name(record.getParameter_name());
-            findRecord.setReject_on_failure(record.getReject_on_failure());
-            PlanParameterEntity update = planParameterRepository.save(findRecord);
-            PlanParameterDto updateResult = ParameterSQLDto.fromEntity(update, PlanParameterDto.class);
-            result.add(updateResult);
-            return result;
+            PlanParameterEntity findRecord = planParameterRepository.findByParameterId(record.getParameter_id()).orElseThrow();
+            if (findRecord != null) {
+                findRecord.setParameter_value(record.getParameter_value());
+                findRecord.setParameter_name(record.getParameter_name());
+                findRecord.setReject_on_failure(record.getReject_on_failure());
+                findRecord.setPlan_id(record.getPlan_id());
+                PlanParameterEntity update = planParameterRepository.save(findRecord);
+                PlanParameterDto updateResult = ParameterSQLDto.fromEntity(update, PlanParameterDto.class);
+                result.add(updateResult);
+                return result;
+            }
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+        return null;
     }
 
     @Override
-    public List<PlanParameterDto> getPlanParameter(int id) {
+    public PlanParameterDto getPlanParameter(int id) {
         try {
-            List<PlanParameterEntity> records = planParameterRepository.findByByPlanId(id);
-            return records.stream().map(r -> PlanParameterDto.fromEntity(r, PlanParameterDto.class)).collect(Collectors.toList());
+            PlanParameterEntity record = planParameterRepository.findByParameterId(id).orElseThrow();
+            PlanParameterDto findResult = ParameterSQLDto.fromEntity(record, PlanParameterDto.class);
+            return findResult;
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -86,7 +93,7 @@ public class PlanParameterService implements IPlanParameter {
     @Override
     public void deleteParameter(int id) {
         try {
-            planParameterRepository.deleteByPlanId(id);
+            planParameterRepository.deleteParameterId(id);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

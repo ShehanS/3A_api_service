@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "bb_plan_attribute")
 public class PlanAttributeEntity {
     @Id
+    private int attribute_id;
     private int plan_id;
     private String attribute_name;
     private String attribute_value;

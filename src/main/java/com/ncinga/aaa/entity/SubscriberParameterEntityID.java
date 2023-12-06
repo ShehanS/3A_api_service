@@ -12,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubscriberParameterEntityID implements Serializable {
+
     private int subscriber_id;
     private String parameter_name;
     private String parameter_value;

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountFilterDto extends BaseDto<AccountFilterDto, AccountFilterEntity> {
+    private int id;
     private int attrgroup_id;
     private String filter_avp;
     private String filter_regexp;

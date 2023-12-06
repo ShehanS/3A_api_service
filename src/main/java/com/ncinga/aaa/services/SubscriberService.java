@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +39,10 @@ public class SubscriberService implements ISubscriber {
         SubscriberEntity subscriberEntity = subscribe.toEntity(SubscriberEntity.class);
         try {
 
+            Optional<List<SubscriberEntity>> subscriber = subscriberRepository.findByEmailOrUsername(subscriberEntity.getEmail(), subscriberEntity.getUsername());
+            if (subscriber.get().size() > 0) {
+                throw new RuntimeException("User has been registered!!!");
+            }
             SubscriberEntity result = subscriberRepository.save(subscriberEntity);
             if (result != null) {
                 return SubscriberDto.fromEntity(result, SubscriberDto.class);
@@ -56,7 +61,7 @@ public class SubscriberService implements ISubscriber {
             int count = subscriberRepository.getRecordCount();
             if (subscriberEntities.hasContent()) {
                 List<SubscriberDto> result = subscriberEntities.getContent().stream()
-                        .map(record -> ParameterSQLDto.fromEntity(record, SubscriberDto.class))
+                        .map(record -> SubscriberDto.fromEntity(record, SubscriberDto.class))
                         .collect(Collectors.toList());
                 return new SubscriberRecordsDto(result, count);
             }
@@ -99,15 +104,9 @@ public class SubscriberService implements ISubscriber {
 
     @Override
     public SubscriberParameterDto addParameter(SubscriberParameterDto subscriberParameterDto) {
-        SubscriberParameterEntity subscriberParameterEntity = new SubscriberParameterEntity();
-        SubscriberParameterEntityID entity = new SubscriberParameterEntityID();
-        entity.setSubscriber_id(subscriberParameterDto.getSubscriber_id());
-        entity.setParameter_name(subscriberParameterDto.getParameter_name());
-        entity.setParameter_value(subscriberParameterDto.getParameter_value());
-        entity.setReject_on_failure(subscriberParameterDto.getReject_on_failure());
-        subscriberParameterEntity.setSubscriberParameterEntityID(entity);
+        SubscriberParameterEntity entity = subscriberParameterDto.toEntity(SubscriberParameterEntity.class);
         try {
-            SubscriberParameterEntity result = subscriberParameterRepository.save(subscriberParameterEntity);
+            SubscriberParameterEntity result = subscriberParameterRepository.save(entity);
             if (result != null) {
                 return SubscriberParameterDto.fromEntity(result, SubscriberParameterDto.class);
             }
@@ -126,14 +125,7 @@ public class SubscriberService implements ISubscriber {
     public List<SubscriberParameterDto> getParameters(int subscriberId) {
         try {
             List<SubscriberParameterEntity> records = subscriberParameterRepository.findBySubScriberId(subscriberId);
-            return records.stream().map(r -> {
-                SubscriberParameterDto subscriberParameterDto = new SubscriberParameterDto();
-                subscriberParameterDto.setParameter_name(r.getSubscriberParameterEntityID().getParameter_name());
-                subscriberParameterDto.setParameter_value(r.getSubscriberParameterEntityID().getParameter_value());
-                subscriberParameterDto.setSubscriber_id(r.getSubscriberParameterEntityID().getSubscriber_id());
-                subscriberParameterDto.setReject_on_failure(r.getSubscriberParameterEntityID().getReject_on_failure());
-                return subscriberParameterDto;
-            }).collect(Collectors.toList());
+            return records.stream().map(r -> SubscriberParameterDto.fromEntity(r, SubscriberParameterDto.class)).collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -145,9 +137,9 @@ public class SubscriberService implements ISubscriber {
     }
 
     @Override
-    public void deleteParameter(SubscriberParameterDto subscriberParameterDto) {
+    public void deleteParameter(int id) {
         try {
-            subscriberParameterRepository.deleteSubscriberParameter(subscriberParameterDto.getSubscriber_id(), subscriberParameterDto.getParameter_name());
+            subscriberParameterRepository.deleteSubscriberParameter(id);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

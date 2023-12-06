@@ -26,7 +26,7 @@ public interface ISubscriber {
 
     List<SubscriberParameterDto> getParameter(int subscriberId);
 
-    void deleteParameter(SubscriberParameterDto subscriberParameterDto);
+    void deleteParameter(int id);
 
     void deleteSubscriber(int id);
 

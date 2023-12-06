@@ -1,6 +1,5 @@
 package com.ncinga.aaa.repository;
 
-import com.ncinga.aaa.entity.PlanTypeEntity;
 import com.ncinga.aaa.entity.SubscriberEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SubscriberRepository extends JpaRepository<SubscriberEntity, Integer> {
@@ -31,4 +31,8 @@ public interface SubscriberRepository extends JpaRepository<SubscriberEntity, In
 
     @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM bb_subscriber")
     int getRecordCount();
+
+    @Query(value = "SELECT * FROM bb_subscriber WHERE email = :email OR username = :username", nativeQuery = true)
+    Optional<List<SubscriberEntity>> findByEmailOrUsername(@Param("email") String email, @Param("username") String username);
+
 }

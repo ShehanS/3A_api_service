@@ -9,12 +9,16 @@ import com.ncinga.aaa.dtos.response.ResponseMessageDto;
 import com.ncinga.aaa.dtos.response.SubscriberRecordsDto;
 import com.ncinga.aaa.services.SubscriberService;
 import com.ncinga.aaa.util.ResponseCode;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/subscribers")
@@ -23,11 +27,20 @@ public class SubscriberController {
     private SubscriberService subscriberService;
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseMessageDto> add(@RequestBody SubscriberDto payload) {
+    public ResponseEntity<ResponseMessageDto> add(@Valid @RequestBody SubscriberDto payload, BindingResult result) {
         ResponseMessageDto response = null;
+
+        if (result.hasErrors()) {
+            List<String> errors = result.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+            response = new ResponseMessageDto(null, null, errors, ResponseCode.ADD_SUBSCRIBER_FAILED);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
         try {
-            SubscriberDto result = subscriberService.addSubscriber(payload);
-            response = new ResponseMessageDto(result, null, null, ResponseCode.ADD_SUBSCRIBER_SUCCESS);
+
+            SubscriberDto createdSubscriber = subscriberService.addSubscriber(payload);
+            response = new ResponseMessageDto(createdSubscriber, null, null, ResponseCode.ADD_SUBSCRIBER_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseMessageDto(null, null, e.getMessage(), ResponseCode.ADD_SUBSCRIBER_FAILED);
@@ -171,12 +184,12 @@ public class SubscriberController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-    @PostMapping("/parameter/delete")
-    public ResponseEntity<ResponseMessageDto> deleteParameter(@RequestBody SubscriberParameterDto subscriberParameterDto) {
+//api/subscribers/parameter/delete/id/10
+    @DeleteMapping("/parameter/delete/id/{id}")
+    public ResponseEntity<ResponseMessageDto> deleteParameter(@PathVariable int id) {
         ResponseMessageDto response = null;
         try {
-            subscriberService.deleteParameter(subscriberParameterDto);
+            subscriberService.deleteParameter(id);
             response = new ResponseMessageDto(null, null, null, ResponseCode.DELETE_SUBSCRIBER_PARAMETER_SUCCESS);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {

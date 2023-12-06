@@ -56,7 +56,7 @@ public class AccountFilterService implements IAccountFilter {
     public List<AccountFilterDto> editFilter(AccountFilterDto record) {
         try {
             List<AccountFilterDto> result = new ArrayList<>();
-            AccountFilterEntity findRecord = accountFilterRepository.findById(record.getAttrgroup_id()).orElseThrow();
+            AccountFilterEntity findRecord = accountFilterRepository.findById(record.getId()).orElseThrow();
             findRecord.setFilter_avp(record.getFilter_avp());
             findRecord.setFilter_for(record.getFilter_for());
             findRecord.setAttrgroup_id(record.getAttrgroup_id());
@@ -86,7 +86,7 @@ public class AccountFilterService implements IAccountFilter {
     @Override
     public void deleteFilter(int id) {
         try {
-            accountFilterRepository.deleteByAttrGroupId(id);
+            accountFilterRepository.deleteById(id);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AVPRecordDto extends BaseDto<AVPRecordDto, AVPRecordEntity> {
+    private int override_id;
     private int attrgroup_id;
     private String vp_name;
     private String substitute_vp;
